@@ -1,0 +1,52 @@
+# Caminhos para as bibliotecas libft
+FTPRINTF = ./printf/ft_printf.a
+
+all: server client
+
+server: 
+	cc -Wall -Wextra -Werror server.c -o server
+client:
+	cc -Wall -Wextra -Werror client.c -o client
+
+$(FTPRINTF):
+	@$(MAKE) -C ./printf
+	@echo "ok bora testar"
+
+clean:
+	@$(MAKE) clean -C ./printf
+	rm -rf server client
+
+fclean: clean
+	@$(MAKE) fclean -C ./printf
+	rm -rf server client
+	@echo "ta tudo limpo teste"
+
+	
+re: fclean all
+
+#############################################################
+PRINTF = ./printf/ft_printf.a
+
+CFLAGS = -Wall -Werror -Wextra
+CC = cc
+RM	= rm -rf
+
+SRCS	= client.c server.c
+OBJ = $(SRCS:.c=.o)
+
+all: $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(PRINTF) -o server
+
+$(PRINTF):
+	$(MAKE) -C ./printf
+
+clean:
+	$(RM) $(OBJ)
+
+fclean: clean 
+	$(MAKE) fclean -C ./printf
+	$(RM) $(OBJ)
+
+re: fclean all
+
+.PHONY: all clean fclean re
