@@ -15,7 +15,6 @@
 // char	*ft_straddc_first(char c)
 // {
 // 	char	*add;
-
 // 	add = (char *)malloc(sizeof(char) * 2);
 // 	if (!add)
 // 		return (NULL);
@@ -24,12 +23,10 @@
 // 	return (add);
 // }
 
-
 // char	*ft_straddc(char *str, char c)
 // {
 // 	char	*add;
 // 	int		i;
-
 // 	if (!c)
 // 		return (NULL);
 // 	if (!str)
@@ -76,7 +73,6 @@
 // {
 // 	static int				i = 0;
 // 	static unsigned char	c = 0;
-
 // 	if (sig == SIGUSR2)
 // 	{
 // 		c = c << 1;
@@ -106,55 +102,35 @@
 // 	return (0);
 // }
 
-int received_size = 0;
-int size_received_bits = 0;
 
-int sig_handler(int bit) {
+void	handler(int sig)
 {
 	static int				i = 0;
-	static unsigned char	c = 0;
+	static int	c = 0;
 
-	if (bit == SIGUSR2)
-	{
+	if (sig == SIGUSR2)
 		c = c << 1;
-	}
-	else if (bit== SIGUSR1)
-	{
-		c = (c << 1) | 1;
-	}
+	else if (sig == SIGUSR1)
+		c = (c << 1) | 0b00000001;
 	i++;
-	return (1);
 	if (i == 8)
 	{
-		ft_printf("%c", c);
+		ft_printf("%i", c);
 		i = 0;
 		c = 0;
-		return (0);
 	}
 }
 
-}
 
 int main() {
     
 	ft_printf("PID: %d", getpid());
-    printf("Aguardando tamanho da string...\n");
+	printf("Aguardando tamanho da string...\n");
 	while(1)
 	{
-		signal(SIGUSR1, sig_handler);
-		signal(SIGUSR2, sig_handler);
-
+		signal(SIGUSR1, handler);
+		signal(SIGUSR2, handler);
 	}
-    printf("Tamanho recebido: %d\n", received_size);
-
-    printf("Bits recebidos: ");
-    for (int i = sizeof(int) * 8 - 1; i >= 0; i--) {
-        if (received_size & (1 << i))
-            printf("1");
-        else
-            printf("0");
-    }
-    printf("\n");
 
     return 0;
 }

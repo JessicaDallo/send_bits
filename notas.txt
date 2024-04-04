@@ -50,3 +50,25 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+################################################################################################################
+void send_size(int size)
+{
+	int i;
+	int total_bits = sizeof(size) * 8;
+	while (total_bits--)
+		{
+		//int i = 8;
+		if (i > 0) {
+			if (size & 0b10000000)
+			{
+				ft_printf("1");
+			}
+			else
+			{
+				ft_printf("0");
+			}
+			i--;
+			size = size << 1;
+		}
+	}
+}

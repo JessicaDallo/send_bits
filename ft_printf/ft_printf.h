@@ -30,4 +30,5 @@ int	ft_count_nbr(long int nb);
 int	ft_strlen(char *str);
 int	ft_atoi( char *str);
 char	*ft_strdup( char *s);
+char	*ft_itoa(int n);
 #endif
